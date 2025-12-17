@@ -1,8 +1,21 @@
 import { Flex, TextInput } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { Search } from 'lucide-react'
+import { useState } from 'react'
 
-export default function Header() {
+export default function Header({ setSearchQuery }) {
+	const isMobile = useMediaQuery('(max-width: 710px)')
+
 	const icon = <Search size={20} />
+
+	const [inputValue, setInputValue] = useState('')
+
+	const handleInputChange = value => {
+		setInputValue(value)
+		if (setSearchQuery) {
+			setSearchQuery(value)
+		}
+	}
 
 	return (
 		<Flex
@@ -23,7 +36,7 @@ export default function Header() {
 				w='100%'
 				h='100%'
 			>
-				<div>
+				<div style={{ display: isMobile ? 'none' : 'block' }}>
 					<h1 className='text-2xl font-bold'>Каталог</h1>
 				</div>
 				<TextInput
@@ -31,7 +44,10 @@ export default function Header() {
 					variant='unstyled'
 					placeholder='Поиск по товарам'
 					radius='md'
-					w='200px'
+					value={inputValue}
+					onChange={event => handleInputChange(event.currentTarget.value)}
+					// w='200px'
+					w={isMobile ? '100%' : '200px'}
 					styles={{
 						input: {
 							backgroundColor: '#f8fafc',

@@ -1,9 +1,24 @@
 import { Button, Flex, Image } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { useState } from 'react'
-import pic from './../../public/itemImages/airpods.jpg'
 
-export default function ModalContent({ closeModal }) {
+interface ModalContentProps {
+	product: {
+		id: number
+		title: string
+		price: number
+		image: string
+		description: string
+	}
+	closeModal: () => void
+}
+
+export default function ModalContent({
+	product,
+	closeModal,
+}: ModalContentProps) {
 	const [isPaid, setIsPaid] = useState(false)
+	const isMobile = useMediaQuery('(max-width: 710px)')
 
 	const handleClickBuy = () => {
 		setIsPaid(true)
@@ -13,9 +28,20 @@ export default function ModalContent({ closeModal }) {
 	}
 
 	return (
-		<Flex display='flex' p='xl' gap='lg' w='100%'>
-			<div style={{ width: '60%' }}>
-				<Image radius='xl' w='600px' h='100%' src={pic} />
+		<Flex
+			display='flex'
+			direction={isMobile ? 'column' : 'row'}
+			p='xl'
+			gap='lg'
+			w='100%'
+		>
+			<div style={{ width: isMobile ? '100%' : '60%' }}>
+				<Image
+					radius='xl'
+					w='600px'
+					h='100%'
+					src={`/itemImages/${product.image}`}
+				/>
 			</div>
 
 			<div
@@ -26,16 +52,16 @@ export default function ModalContent({ closeModal }) {
 					// alignItems: 'center',
 					// textAlign: 'center',
 					gap: '8px',
-					width: '40%',
+					width: isMobile ? '100%' : '40%',
 				}}
 			>
-				<h2 style={{ fontWeight: '700', fontSize: '24px' }}>Air Pods Pro 3</h2>
-				<h1 style={{ fontSize: '24px', color: '#000' }}>22 000 р.</h1>
+				<h2 style={{ fontWeight: '700', fontSize: '24px' }}>{product.title}</h2>
+				<h1 style={{ fontSize: '24px', color: '#000' }}>{product.price} р.</h1>
 				<div style={{ gap: '8px', display: 'flex', flexDirection: 'column' }}>
-					<h4 style={{ color: '#838383' }}>Описание</h4>
-					<h3 style={{ color: '#838383' }}>
-						Беспроводные наушники, хорошее качество звука.
-					</h3>
+					<h4 style={{ color: '#838383', textDecoration: 'underline' }}>
+						Описание
+					</h4>
+					<h3 style={{ color: '#838383' }}>{product.description}</h3>
 				</div>
 
 				<div style={{ width: '100%' }}>

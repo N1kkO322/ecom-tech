@@ -1,9 +1,17 @@
 import { Flex, Image, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import pic from './../../public/itemImages/airpods.jpg'
 import ModalContent from './ModalContent'
 
-export default function ItemCard() {
+interface ItemCardProps {
+	product: {
+		id: number
+		title: string
+		price: number
+		image: string
+	}
+}
+
+export default function ItemCard({ product }: ItemCardProps) {
 	const [opened, { open, close }] = useDisclosure(false)
 
 	return (
@@ -28,7 +36,7 @@ export default function ItemCard() {
 					},
 				}}
 			>
-				<ModalContent closeModal={close} />
+				<ModalContent product={product} closeModal={close} />
 			</Modal>
 			<Flex
 				display='flex'
@@ -38,7 +46,7 @@ export default function ItemCard() {
 				justify='space-around'
 				onClick={open}
 				bg='#fff'
-				w='240px'
+				w='260px'
 				h='360px'
 				p='lg'
 				c='var(--text-color)'
@@ -49,7 +57,12 @@ export default function ItemCard() {
 				}}
 			>
 				<div>
-					<Image radius='xl' w='100%' h='200px' src={pic} />
+					<Image
+						radius='xl'
+						w='100%'
+						h='200px'
+						src={`/itemImages/${product.image}`}
+					/>
 				</div>
 
 				<div
@@ -63,9 +76,11 @@ export default function ItemCard() {
 					}}
 				>
 					<h2 style={{ fontWeight: '700', fontSize: '20px' }}>
-						Air Pods Pro 3
+						{product.title}
 					</h2>
-					<h1 style={{ fontWeight: '700', fontSize: '20px' }}>22 000 р.</h1>
+					<h1 style={{ fontWeight: '700', fontSize: '20px' }}>
+						{product.price} р.
+					</h1>
 				</div>
 			</Flex>
 		</>
