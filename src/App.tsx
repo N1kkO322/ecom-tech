@@ -1,8 +1,13 @@
+import { Flex } from '@mantine/core'
+import Header from './components/Header'
+import Items from './components/Items'
+
 function App() {
 	return (
-		<>
-			<h1>TestTask</h1>
-		</>
+		<Flex p='4dvh' direction='column'>
+			<Header />
+			<Items />
+		</Flex>
 	)
 }
 
